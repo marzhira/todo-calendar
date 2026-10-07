@@ -63,3 +63,8 @@ html,body{margin:0}
 .login p{margin:0;color:var(--muted)}
 .user{display:flex;align-items:center;gap:10px;font-size:.8rem;color:var(--muted)}
 .user .btn{padding:3px 10px;font-size:.8rem}
+.backup{grid-column:1/-1;display:flex;flex-direction:column;gap:10px}
+.backup h2{font-family:var(--font-display);font-size:1.1rem;margin:0}
+.backup p{margin:0;color:var(--muted);font-size:.88rem}
+.backup .row{display:flex;flex-wrap:wrap;gap:8px}
+.backup .note{color:var(--accent)}

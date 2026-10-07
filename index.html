@@ -53,6 +53,18 @@
       <button class="btn" id="carry" hidden></button>
     </div>
   </section>
+
+  <section class="panel backup" id="backupPanel" aria-label="기록 내려받기" hidden>
+    <h2>기록 보관</h2>
+    <p>모든 날짜의 할 일을 파일로 내려받아 보관할 수 있어요. 백업 파일은 나중에 다시 불러올 수 있어요.</p>
+    <div class="row">
+      <button class="btn" id="exportCsv">엑셀용 CSV 내려받기</button>
+      <button class="btn" id="exportJson">백업 파일 내려받기</button>
+      <label class="btn" for="importFile">백업 불러오기</label>
+      <input type="file" id="importFile" accept=".json,application/json" hidden>
+    </div>
+    <p class="note" id="backupNote" aria-live="polite"></p>
+  </section>
 </div>
 <script type="module" src="app.js"></script>
 </body>

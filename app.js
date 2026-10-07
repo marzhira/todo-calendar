@@ -31,6 +31,7 @@ function showApp(signedIn) {
   $('calPanel').hidden = !signedIn;
   $('dayPanel').hidden = !signedIn;
   $('logout').hidden = !signedIn;
+  $('backupPanel').hidden = !signedIn;
 }
 
 onAuthStateChanged(auth, user => {
@@ -147,6 +148,58 @@ $('addForm').addEventListener('submit', e => {
 $('prev').onclick = () => { view = new Date(view.getFullYear(), view.getMonth() - 1, 1); render(); };
 $('next').onclick = () => { view = new Date(view.getFullYear(), view.getMonth() + 1, 1); render(); };
 $('goToday').onclick = () => { selected = todayKey(); view = new Date(); view.setDate(1); render(); };
+
+// ---------- 기록 내려받기 / 백업 불러오기 ----------
+function download(name, text, type) {
+  const url = URL.createObjectURL(new Blob([text], { type }));
+  const a = document.createElement('a'); a.href = url; a.download = name;
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+const note = t => { $('backupNote').textContent = t; };
+const sortedKeys = () => Object.keys(days).filter(k => days[k].items.length).sort();
+
+$('exportCsv').onclick = () => {
+  const q = v => '"' + String(v).replace(/"/g, '""') + '"';
+  const rows = [['날짜', '할 일', '완료', '그날 달성률'].map(q).join(',')];
+  sortedKeys().forEach(k => {
+    const pct = stats(k).pct + '%';
+    days[k].items.forEach(i => rows.push([k, i.text, i.done ? 'O' : 'X', pct].map(q).join(',')));
+  });
+  // 엑셀에서 한글이 깨지지 않도록 BOM을 붙여요
+  download('할일기록-' + todayKey() + '.csv', '\ufeff' + rows.join('\r\n'), 'text/csv;charset=utf-8');
+  note(sortedKeys().length + '일치 기록을 CSV로 내려받았어요.');
+};
+
+$('exportJson').onclick = () => {
+  const out = { app: 'todo-calendar', version: 1, exportedAt: new Date().toISOString(), days: {} };
+  sortedKeys().forEach(k => { out.days[k] = { items: days[k].items }; });
+  download('할일백업-' + todayKey() + '.json', JSON.stringify(out, null, 2), 'application/json');
+  note(sortedKeys().length + '일치 기록을 백업 파일로 내려받았어요.');
+};
+
+$('importFile').onchange = async e => {
+  const file = e.target.files[0]; e.target.value = '';
+  if (!file) return;
+  let data;
+  try { data = JSON.parse(await file.text()); } catch (err) { note('파일을 읽지 못했어요. 이 앱에서 내려받은 백업 파일(.json)인지 확인해 주세요.'); return; }
+  if (!data || typeof data.days !== 'object') { note('이 앱의 백업 파일이 아니에요.'); return; }
+  // 이미 있는 할 일은 그대로 두고, 백업에만 있는 할 일을 더해요
+  let added = 0;
+  Object.entries(data.days).forEach(([k, v]) => {
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(k) || !v || !Array.isArray(v.items)) return;
+    const cur = (days[k] = days[k] || { items: [] });
+    const ids = new Set(cur.items.map(i => i.id));
+    let changed = false;
+    v.items.forEach(i => {
+      if (!i || typeof i.text !== 'string' || ids.has(i.id)) return;
+      cur.items.push({ id: i.id || newId(), text: i.text.slice(0, 200), done: !!i.done }); added++; changed = true;
+    });
+    if (changed) persist(k); else if (!cur.items.length) delete days[k];
+  });
+  render();
+  note(added ? '할 일 ' + added + '개를 불러왔어요.' : '새로 불러올 할 일이 없어요. 이미 모두 들어 있어요.');
+};
 
 // 자정이 지나면 오늘 표시를 새로 고침
 document.addEventListener('visibilitychange', () => { if (!document.hidden) render(); });
