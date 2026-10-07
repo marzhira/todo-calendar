@@ -90,4 +90,3 @@ html,body{margin:0}
 .events-msg{margin:6px 0 0;font-size:.85rem;color:var(--muted)}
 ul.events{margin-top:4px}
 .ev-color{flex:none;width:4px;align-self:stretch;border-radius:2px;background:var(--ev,var(--event))}
-.cell.has-event::after{content:"";position:absolute;top:5px;left:5px;width:5px;height:5px;border-radius:50%;background:var(--event);z-index:1}

@@ -118,7 +118,6 @@ function renderCal() {
     if (k === selected) b.classList.add('sel');
     if (s.pct === 100) b.classList.add('full');
     if (days[k] && days[k].note) b.classList.add('has-note');
-    if (events[k] && events[k].length) b.classList.add('has-event');
     b.setAttribute('aria-label', (d.getMonth() + 1) + '월 ' + d.getDate() + '일' + (s.pct !== null ? ' 달성률 ' + s.pct + '%' : '') + (events[k] && events[k].length ? ' 일정 ' + events[k].length + '개' : ''));
     b.innerHTML = '<span class="fill" style="height:' + (s.pct || 0) + '%"></span><span class="n"></span><span class="p"></span>';
     b.querySelector('.n').textContent = d.getDate();
@@ -315,4 +314,10 @@ $('importFile').onchange = async e => {
 // 자정이 지나면 오늘 표시를 새로 고침
 document.addEventListener('visibilitychange', () => { if (!document.hidden) render(); });
 
-if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(() => {});
+if ('serviceWorker' in navigator) {
+  // 새 버전이 설치되면 한 번 새로고침해서 바로 새 화면을 보여 줘요
+  const hadController = !!navigator.serviceWorker.controller;
+  let reloaded = false;
+  navigator.serviceWorker.addEventListener('controllerchange', () => { if (hadController && !reloaded) { reloaded = true; location.reload(); } });
+  navigator.serviceWorker.register('sw.js').then(r => r.update()).catch(() => {});
+}
