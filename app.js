@@ -30,8 +30,8 @@ function showApp(signedIn) {
   $('login').hidden = signedIn;
   $('calPanel').hidden = !signedIn;
   $('dayPanel').hidden = !signedIn;
-  $('logout').hidden = !signedIn;
-  $('backupPanel').hidden = !signedIn;
+  $('menuWrap').hidden = !signedIn;
+  if (!signedIn) setMenu(false);
 }
 
 onAuthStateChanged(auth, user => {
@@ -61,6 +61,16 @@ $('loginBtn').onclick = async () => {
   }
 };
 $('logout').onclick = () => signOut(auth);
+
+// 오른쪽 위 ⋯ 메뉴 (기록 보관, 로그아웃)
+function setMenu(open) {
+  $('menu').hidden = !open;
+  $('menuBtn').setAttribute('aria-expanded', String(open));
+  if (open) $('backupNote').textContent = '';
+}
+$('menuBtn').onclick = e => { e.stopPropagation(); setMenu($('menu').hidden); };
+document.addEventListener('click', e => { if (!e.target.download && !$('menuWrap').contains(e.target)) setMenu(false); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') setMenu(false); });
 
 function persist(k) {
   if (!daysCol) return;

@@ -17,7 +17,21 @@
     <h1>하루 할 일 달력</h1>
     <div class="user">
       <span class="sync" id="sync">연결 중…</span>
-      <button class="btn" id="logout" hidden>로그아웃</button>
+      <div class="menu-wrap" id="menuWrap" hidden>
+        <button class="icon-btn" id="menuBtn" type="button" aria-label="메뉴" aria-haspopup="true" aria-expanded="false">
+          <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/></svg>
+        </button>
+        <div class="menu" id="menu" role="menu" hidden>
+          <div class="menu-title">기록 보관</div>
+          <button class="menu-item" id="exportCsv" role="menuitem" type="button">엑셀용 CSV 내려받기</button>
+          <button class="menu-item" id="exportJson" role="menuitem" type="button">백업 파일 내려받기</button>
+          <label class="menu-item" for="importFile" role="menuitem">백업 불러오기</label>
+          <input type="file" id="importFile" accept=".json,application/json" hidden>
+          <p class="menu-note" id="backupNote" aria-live="polite"></p>
+          <hr>
+          <button class="menu-item" id="logout" role="menuitem" type="button">로그아웃</button>
+        </div>
+      </div>
     </div>
   </header>
 
@@ -67,17 +81,6 @@
     </div>
   </section>
 
-  <section class="panel backup" id="backupPanel" aria-label="기록 내려받기" hidden>
-    <h2>기록 보관</h2>
-    <p>모든 날짜의 할 일과 하루 기록을 파일로 내려받아 보관할 수 있어요. 백업 파일은 나중에 다시 불러올 수 있어요.</p>
-    <div class="row">
-      <button class="btn" id="exportCsv">엑셀용 CSV 내려받기</button>
-      <button class="btn" id="exportJson">백업 파일 내려받기</button>
-      <label class="btn" for="importFile">백업 불러오기</label>
-      <input type="file" id="importFile" accept=".json,application/json" hidden>
-    </div>
-    <p class="note" id="backupNote" aria-live="polite"></p>
-  </section>
 </div>
 <script type="module" src="app.js"></script>
 </body>
