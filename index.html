@@ -4,17 +4,55 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>하루 할 일 달력</title>
-<meta name="theme-color" content="#2f6b5e">
+<meta name="theme-color" content="#f7f1e3">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="icon-192.png">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@700&family=IBM+Plex+Sans+KR:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gaegu:wght@400;700&family=Gowun+Dodum&display=swap">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="cat-w" viewBox="0 0 64 60">
+      <path d="M14 24C12 18 12 10 14 5C18 8 22 11 25 14C29 12.5 35 12.5 39 14C42 11 46 8 50 5C52 10 52 18 50 24C54 30 54 40 49 46C44 51 38 53 32 53C26 53 20 51 15 46C10 40 10 30 14 24Z" fill="var(--cat-white)" stroke="var(--outline)" stroke-width="2.6" stroke-linejoin="round"/>
+      <path d="M17 10L23 15L18 19Z M47 10L41 15L46 19Z" fill="var(--blush)"/>
+      <ellipse cx="24" cy="33" rx="2.3" ry="3" fill="#2b3a55"/><ellipse cx="40" cy="33" rx="2.3" ry="3" fill="#2b3a55"/>
+      <ellipse cx="18.5" cy="39.5" rx="3.6" ry="2" fill="var(--blush)"/><ellipse cx="45.5" cy="39.5" rx="3.6" ry="2" fill="var(--blush)"/>
+      <path d="M28 39.5Q30 42.5 32 39.5Q34 42.5 36 39.5" fill="none" stroke="#2b3a55" stroke-width="1.8" stroke-linecap="round"/>
+      <path d="M32 53L23 47.5L23 58Z M32 53L41 47.5L41 58Z" fill="var(--red)" stroke="var(--outline)" stroke-width="2" stroke-linejoin="round"/>
+      <circle cx="32" cy="53" r="2.8" fill="var(--red)" stroke="var(--outline)" stroke-width="2"/>
+    </symbol>
+    <symbol id="cat-b" viewBox="0 0 64 60">
+      <path d="M14 24C12 18 12 10 14 5C18 8 22 11 25 14C29 12.5 35 12.5 39 14C42 11 46 8 50 5C52 10 52 18 50 24C54 30 54 40 49 46C44 51 38 53 32 53C26 53 20 51 15 46C10 40 10 30 14 24Z" fill="var(--cat-black)" stroke="var(--outline)" stroke-width="2.6" stroke-linejoin="round"/>
+      <path d="M17 10L23 15L18 19Z M47 10L41 15L46 19Z" fill="#5a5a68"/>
+      <ellipse cx="24" cy="33" rx="3.4" ry="3.8" fill="#f2d06b"/><ellipse cx="40" cy="33" rx="3.4" ry="3.8" fill="#f2d06b"/>
+      <ellipse cx="24.4" cy="33.4" rx="1.3" ry="2.6" fill="#14141a"/><ellipse cx="40.4" cy="33.4" rx="1.3" ry="2.6" fill="#14141a"/>
+      <ellipse cx="17.5" cy="40" rx="3.4" ry="1.8" fill="var(--blush)" opacity=".75"/><ellipse cx="46.5" cy="40" rx="3.4" ry="1.8" fill="var(--blush)" opacity=".75"/>
+      <path d="M28 40Q30 43 32 40Q34 43 36 40" fill="none" stroke="#fffaf0" stroke-width="1.8" stroke-linecap="round"/>
+      <path d="M32 53L23 47.5L23 58Z M32 53L41 47.5L41 58Z" fill="var(--sky)" stroke="var(--outline)" stroke-width="2" stroke-linejoin="round"/>
+      <circle cx="32" cy="53" r="2.8" fill="var(--sky)" stroke="var(--outline)" stroke-width="2"/>
+    </symbol>
+    <symbol id="cat-b-sleep" viewBox="0 0 64 60">
+      <path d="M14 24C12 18 12 10 14 5C18 8 22 11 25 14C29 12.5 35 12.5 39 14C42 11 46 8 50 5C52 10 52 18 50 24C54 30 54 40 49 46C44 51 38 53 32 53C26 53 20 51 15 46C10 40 10 30 14 24Z" fill="var(--cat-black)" stroke="var(--outline)" stroke-width="2.6" stroke-linejoin="round"/>
+      <path d="M17 10L23 15L18 19Z M47 10L41 15L46 19Z" fill="#5a5a68"/>
+      <path d="M20.5 33Q24 36.5 27.5 33 M36.5 33Q40 36.5 43.5 33" fill="none" stroke="#fffaf0" stroke-width="2" stroke-linecap="round"/>
+      <ellipse cx="17.5" cy="40" rx="3.4" ry="1.8" fill="var(--blush)" opacity=".75"/><ellipse cx="46.5" cy="40" rx="3.4" ry="1.8" fill="var(--blush)" opacity=".75"/>
+      <path d="M30 41Q32 42.5 34 41" fill="none" stroke="#fffaf0" stroke-width="1.8" stroke-linecap="round"/>
+      <path d="M52 4h6l-6 7h6 M46 14h4l-4 5h4" fill="none" stroke="var(--accent)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+    <symbol id="cat-yay" viewBox="0 0 64 60">
+      <use href="#cat-w"/>
+      <path d="M6 6l1.6 4 4 1.6-4 1.6L6 17.2l-1.6-4-4-1.6 4-1.6Z M58 18l1.2 3 3 1.2-3 1.2-1.2 3-1.2-3-3-1.2 3-1.2Z" fill="#f2c14e"/>
+    </symbol>
+  </defs>
+</svg>
 <div class="wrap">
   <header class="top">
-    <h1>하루 할 일 달력</h1>
+    <div class="brand">
+      <svg class="cat cat-logo" aria-hidden="true"><use href="#cat-w"/></svg>
+      <h1>하루 할 일 달력<small>DAILY TO-DO</small></h1>
+    </div>
     <div class="user">
       <span class="sync" id="sync">연결 중…</span>
       <div class="menu-wrap" id="menuWrap" hidden>
@@ -36,6 +74,11 @@
   </header>
 
   <section class="login panel" id="login" hidden>
+    <div class="brand">
+      <svg class="cat cat-big" aria-hidden="true"><use href="#cat-w"/></svg>
+      <svg class="cat cat-big" aria-hidden="true"><use href="#cat-b"/></svg>
+    </div>
+    <h2>어서 와요!</h2>
     <p>구글 계정으로 로그인하면 휴대폰과 PC에서 같은 할 일 목록을 쓸 수 있어요.</p>
     <button class="btn primary" id="loginBtn">Google로 로그인</button>
   </section>
@@ -54,7 +97,10 @@
   <section class="panel" id="dayPanel" aria-label="선택한 날의 할 일" hidden>
     <div class="day-head">
       <h2 id="dayLabel"></h2>
-      <div class="pct" id="pct">0%<small></small></div>
+      <div class="pct-wrap">
+        <svg class="cat yay" id="yay" aria-hidden="true" hidden><use href="#cat-yay"/></svg>
+        <div class="pct" id="pct">0%<small></small></div>
+      </div>
     </div>
     <div class="bar"><span id="barFill"></span></div>
     <form class="add" id="addForm">
@@ -63,7 +109,10 @@
     </form>
     <ul class="items" id="items"></ul>
     <div class="empty" id="empty" hidden>
-      <span>이 날의 할 일이 아직 없어요. 위 칸에 첫 할 일을 적어 보세요.</span>
+      <div class="empty-row">
+        <svg class="cat cat-small" aria-hidden="true"><use href="#cat-b-sleep"/></svg>
+        <span>이 날의 할 일이 아직 없어요. 위 칸에 첫 할 일을 적어 보세요.</span>
+      </div>
       <button class="btn" id="carry" hidden></button>
     </div>
     <div class="events-box" id="eventsBox" hidden>
@@ -90,6 +139,9 @@
   </section>
 
 </div>
+<footer class="foot" aria-hidden="true">
+  <svg class="cat"><use href="#cat-b"/></svg><svg class="cat"><use href="#cat-w"/></svg>
+</footer>
 <script type="module" src="app.js"></script>
 </body>
 </html>

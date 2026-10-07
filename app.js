@@ -134,6 +134,7 @@ function renderDay() {
   $('pct').innerHTML = (s.pct === null ? '0' : s.pct) + '%<small></small>';
   $('pct').querySelector('small').textContent = s.total ? s.done + ' / ' + s.total + ' 완료' : '';
   $('barFill').style.width = (s.pct || 0) + '%';
+  $('yay').hidden = s.pct !== 100;
   const ul = $('items'); ul.innerHTML = '';
   const it = (days[selected] && days[selected].items) || [];
   it.forEach(item => {
