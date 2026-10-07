@@ -23,7 +23,7 @@ body{color:var(--ink);font-family:var(--font-body);font-size:15px;line-height:1.
 /* cats */
 .cat{display:block;flex:none;height:auto;max-width:100%}
 .cat-logo{width:auto;height:52px}
-.cat-small{width:auto;height:40px}
+.cat-small{width:auto;height:32px}
 
 header.top{grid-column:1/-1;display:flex;flex-wrap:nowrap;align-items:center;justify-content:space-between;gap:8px}
 .brand{display:flex;align-items:center;gap:8px}
@@ -68,7 +68,7 @@ h2,.cal-head h2,.day-head h2{font-family:var(--font-display);font-weight:700}
 .pct-wrap{display:flex;align-items:flex-end;gap:6px}
 .pct{font-family:var(--font-display);font-size:2.6rem;font-weight:700;color:var(--accent);font-variant-numeric:tabular-nums;line-height:.9}
 .pct small{font-family:var(--font-body);font-size:.8rem;color:var(--muted);font-weight:400;margin-left:4px}
-.yay{width:auto;height:56px;animation:hop .6s ease-out}
+.yay{width:auto;height:44px;animation:hop .6s ease-out}
 @keyframes hop{0%{transform:translateY(8px) scale(.8);opacity:0}60%{transform:translateY(-4px)}100%{transform:none;opacity:1}}
 .bar{height:12px;border-radius:99px;background:var(--bg);border:2px solid var(--outline);margin-block:12px 16px;overflow:hidden}
 .bar span{display:block;height:100%;width:0;transition:width .3s;background:repeating-linear-gradient(-45deg,var(--sky) 0 6px,var(--accent-soft) 6px 12px)}
@@ -122,5 +122,5 @@ ul.events{margin-top:4px}
 .ev-color{flex:none;width:6px;align-self:stretch;border-radius:3px;background:var(--ev,var(--event))}
 
 .foot{display:flex;justify-content:center;align-items:flex-end;gap:0;padding-block:4px 20px;color:var(--muted);font-family:var(--font-display);font-size:.95rem}
-.foot .cat{width:auto;height:40px}
+.foot .cat{width:auto;height:32px}
 @media (max-width:420px){h1{font-size:1.5rem}.cat-logo{height:44px}.sync{max-width:6.5em}}
