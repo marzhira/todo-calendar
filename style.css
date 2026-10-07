@@ -1,3 +1,4 @@
+[hidden]{display:none!important}
 /* Layout: planner page. Month calendar (each day tinted by completion) beside the selected day's list; stacks on phones. */
 :root{
   --bg:#f5f6f3; --paper:#ffffff; --ink:#1f2a33; --muted:#6b7680; --line:#dfe3e0;
