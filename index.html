@@ -66,6 +66,14 @@
       <span>이 날의 할 일이 아직 없어요. 위 칸에 첫 할 일을 적어 보세요.</span>
       <button class="btn" id="carry" hidden></button>
     </div>
+    <div class="events-box" id="eventsBox" hidden>
+      <div class="note-head">
+        <span class="note-label">주요 일정</span>
+        <button class="link-btn" id="eventsAction" type="button">구글 캘린더 연결</button>
+      </div>
+      <p class="events-msg" id="eventsMsg"></p>
+      <ul class="items events" id="events"></ul>
+    </div>
     <div class="note-head">
       <span class="note-label">하루 기록</span>
       <button class="link-btn" id="noteEditBtn" type="button" hidden>수정</button>

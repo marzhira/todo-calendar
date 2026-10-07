@@ -2,16 +2,16 @@
 /* Layout: planner page. Month calendar (each day tinted by completion) beside the selected day's list; stacks on phones. */
 :root{
   --bg:#f5f6f3; --paper:#ffffff; --ink:#1f2a33; --muted:#6b7680; --line:#dfe3e0;
-  --accent:#2f6b5e; --accent-soft:#e2eee9; --warn:#b5651d; --done:#9aa5ad;
+  --accent:#2f6b5e; --accent-soft:#e2eee9; --warn:#b5651d; --event:#3d6fb3; --done:#9aa5ad;
   --font-display:"Gowun Batang", "Noto Serif KR", serif;
   --font-body:"IBM Plex Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
   --bg:#141a1d; --paper:#1c2427; --ink:#e6ebe8; --muted:#94a09c; --line:#2d383b;
-  --accent:#6fbfa9; --accent-soft:#22362f; --warn:#e0a060; --done:#64706c; color-scheme:dark}}
+  --accent:#6fbfa9; --accent-soft:#22362f; --warn:#e0a060; --event:#7fa8e0; --done:#64706c; color-scheme:dark}}
 :root[data-theme="dark"]{
   --bg:#141a1d; --paper:#1c2427; --ink:#e6ebe8; --muted:#94a09c; --line:#2d383b;
-  --accent:#6fbfa9; --accent-soft:#22362f; --warn:#e0a060; --done:#64706c; color-scheme:dark}
+  --accent:#6fbfa9; --accent-soft:#22362f; --warn:#e0a060; --event:#7fa8e0; --done:#64706c; color-scheme:dark}
 html,body{background:var(--bg)}
 body{color:var(--ink);font-family:var(--font-body);font-size:15px;line-height:1.5}
 .wrap{max-width:1040px;margin:0 auto;padding-inline:16px;padding-block:20px 40px;display:grid;gap:20px;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);align-items:start}
@@ -87,3 +87,7 @@ html,body{margin:0}
 .note-box:focus{outline:2px solid var(--accent);outline-offset:1px}
 .note-actions{display:flex;justify-content:flex-end;gap:8px}
 .cell.has-note::before{content:"";position:absolute;top:5px;right:5px;width:5px;height:5px;border-radius:50%;background:var(--warn);z-index:1}
+.events-msg{margin:6px 0 0;font-size:.85rem;color:var(--muted)}
+ul.events{margin-top:4px}
+.ev-time{flex:none;min-width:3.2em;font-size:.78rem;font-variant-numeric:tabular-nums;color:var(--muted);padding-left:8px;border-left:3px solid var(--ev,var(--event))}
+.cell.has-event::after{content:"";position:absolute;top:5px;left:5px;width:5px;height:5px;border-radius:50%;background:var(--event);z-index:1}

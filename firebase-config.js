@@ -7,3 +7,6 @@ export const firebaseConfig = {
   messagingSenderId: "40799038001",
   appId: "1:40799038001:web:cff4ae0531dc7b9b730310"
 };
+
+// 구글 캘린더 연동용 OAuth 클라이언트 ID (비워 두면 일정 칸이 보이지 않아요)
+export const googleClientId = "";
