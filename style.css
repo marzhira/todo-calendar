@@ -89,5 +89,5 @@ html,body{margin:0}
 .cell.has-note::before{content:"";position:absolute;top:5px;right:5px;width:5px;height:5px;border-radius:50%;background:var(--warn);z-index:1}
 .events-msg{margin:6px 0 0;font-size:.85rem;color:var(--muted)}
 ul.events{margin-top:4px}
-.ev-time{flex:none;min-width:3.2em;font-size:.78rem;font-variant-numeric:tabular-nums;color:var(--muted);padding-left:8px;border-left:3px solid var(--ev,var(--event))}
+.ev-color{flex:none;width:4px;align-self:stretch;border-radius:2px;background:var(--ev,var(--event))}
 .cell.has-event::after{content:"";position:absolute;top:5px;left:5px;width:5px;height:5px;border-radius:50%;background:var(--event);z-index:1}

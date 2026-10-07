@@ -9,4 +9,4 @@ export const firebaseConfig = {
 };
 
 // 구글 캘린더 연동용 OAuth 클라이언트 ID (비워 두면 일정 칸이 보이지 않아요)
-export const googleClientId = "";
+export const googleClientId = "40799038001-t00rkotqp55bb6psbih5f5ba0kp6tjbp.apps.googleusercontent.com";

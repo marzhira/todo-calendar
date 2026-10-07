@@ -64,9 +64,8 @@ async function get(path, params) {
 
 const pad = n => String(n).padStart(2, '0');
 const dkey = d => d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate());
-const hm = d => pad(d.getHours()) + ':' + pad(d.getMinutes());
 
-// from~to(Date) 사이 일정을 날짜별로 묶어 돌려줘요: { 'YYYY-MM-DD': [{id,title,time,sort,color}] }
+// from~to(Date) 사이 일정을 날짜별로 묶어 돌려줘요: { 'YYYY-MM-DD': [{id,title,color}] }
 export async function fetchRange(from, to) {
   if (!hasToken()) throw new Error('expired');
   const list = await get('/users/me/calendarList', { minAccessRole: 'reader', maxResults: '50' });
@@ -84,17 +83,13 @@ export async function fetchRange(from, to) {
       const id = (c.primary ? '' : c.id + '|') + e.id;
       if (e.start && e.start.date) {          // 종일 일정 (끝 날짜는 포함하지 않음)
         const s = new Date(e.start.date + 'T00:00:00'), end = new Date(e.end.date + 'T00:00:00');
-        for (let d = new Date(s); d < end; d.setDate(d.getDate() + 1)) add(dkey(d), { id, title, time: '종일', sort: '', color });
+        for (let d = new Date(s); d < end; d.setDate(d.getDate() + 1)) add(dkey(d), { id, title, color });
       } else if (e.start && e.start.dateTime) {
         const s = new Date(e.start.dateTime), end = new Date(e.end.dateTime);
         const last = new Date(end.getTime() - 1);
-        for (let d = new Date(s.getFullYear(), s.getMonth(), s.getDate()); d <= last; d.setDate(d.getDate() + 1)) {
-          const first = dkey(d) === dkey(s);
-          add(dkey(d), { id, title, time: first ? hm(s) : '이어서', sort: first ? hm(s) : '00:00', color });
-        }
+        for (let d = new Date(s.getFullYear(), s.getMonth(), s.getDate()); d <= last; d.setDate(d.getDate() + 1)) add(dkey(d), { id, title, color });
       }
     });
   }));
-  Object.values(out).forEach(a => a.sort((x, y) => x.sort.localeCompare(y.sort)));
   return out;
 }

@@ -232,7 +232,7 @@ function renderEvents() {
       if (cb.checked) d.eventsDone[ev.id] = ev.title; else delete d.eventsDone[ev.id];
       persist(selected); render();
     };
-    const tm = document.createElement('span'); tm.className = 'ev-time'; tm.textContent = ev.time;
+    const tm = document.createElement('span'); tm.className = 'ev-color';
     if (ev.color) tm.style.setProperty('--ev', ev.color);
     const t = document.createElement('label'); t.className = 't'; t.htmlFor = cb.id; t.textContent = ev.title;
     li.append(cb, tm, t); ul.appendChild(li);
