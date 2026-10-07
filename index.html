@@ -52,8 +52,19 @@
       <span>이 날의 할 일이 아직 없어요. 위 칸에 첫 할 일을 적어 보세요.</span>
       <button class="btn" id="carry" hidden></button>
     </div>
-    <label class="note-label" for="note">하루 기록</label>
-    <textarea id="note" class="note-box" rows="1" maxlength="5000" placeholder="하루를 짧게 남겨 보세요"></textarea>
+    <div class="note-head">
+      <span class="note-label">하루 기록</span>
+      <button class="link-btn" id="noteEditBtn" type="button" hidden>수정</button>
+    </div>
+    <div class="note-view" id="noteView" hidden></div>
+    <button class="note-start" id="noteStart" type="button">하루를 짧게 남겨 보세요</button>
+    <div class="note-edit" id="noteEdit" hidden>
+      <textarea id="note" class="note-box" maxlength="5000" aria-label="하루 기록" placeholder="하루를 짧게 남겨 보세요"></textarea>
+      <div class="note-actions">
+        <button class="btn" id="noteCancel" type="button">취소</button>
+        <button class="btn primary" id="noteSave" type="button">저장</button>
+      </div>
+    </div>
   </section>
 
   <section class="panel backup" id="backupPanel" aria-label="기록 내려받기" hidden>

@@ -139,31 +139,32 @@ function renderDay() {
     };
   }
 }
+// 하루 기록: 평소에는 확정된 글로 보여 주고, [수정]을 눌렀을 때만 입력 칸이 열려요
+const drafts = {};        // dateKey -> 저장 전 입력 중인 글 (날짜를 옮겨도 유지)
+const savedNote = k => (days[k] && days[k].note) || '';
 function renderNote() {
-  const box = $('note');
-  // 쓰는 중에는 동기화로 내용이 덮어써지지 않게 해요
-  if (document.activeElement !== box) box.value = (days[selected] && days[selected].note) || '';
-  autosize();
+  const editing = selected in drafts, saved = savedNote(selected);
+  $('noteView').hidden = editing || !saved;
+  $('noteView').textContent = saved;
+  $('noteStart').hidden = editing || !!saved;
+  $('noteEdit').hidden = !editing;
+  $('noteEditBtn').hidden = editing || !saved;
+  if (editing && $('note').value !== drafts[selected]) { $('note').value = drafts[selected]; autosize(); }
 }
-function autosize() {
-  const box = $('note');
-  box.style.height = 'auto';
-  if (document.activeElement === box || box.value) box.style.height = Math.max(box.scrollHeight, document.activeElement === box ? 120 : 0) + 'px';
-}
-let noteTimer = null, noteKey = null;
-function saveNote() {
-  clearTimeout(noteTimer);
-  if (noteKey === null) return;
-  const k = noteKey, v = $('note').value.replace(/\s+$/, '');
-  noteKey = null;
-  if (((days[k] && days[k].note) || '') === v) return;
-  ensureDay(k).note = v; persist(k); renderCal();
-}
-$('note').addEventListener('input', () => { noteKey = selected; autosize(); clearTimeout(noteTimer); noteTimer = setTimeout(saveNote, 800); });
-$('note').addEventListener('focus', autosize);
-$('note').addEventListener('blur', () => { saveNote(); autosize(); });
+function autosize() { const box = $('note'); box.style.height = 'auto'; box.style.height = Math.max(box.scrollHeight, 120) + 'px'; }
+function openNote() { drafts[selected] = savedNote(selected); renderNote(); $('note').focus(); autosize(); }
+$('noteStart').onclick = openNote;
+$('noteEditBtn').onclick = openNote;
+$('note').addEventListener('input', () => { drafts[selected] = $('note').value; autosize(); });
+$('noteSave').onclick = () => {
+  const v = $('note').value.replace(/\s+$/, '');
+  delete drafts[selected];
+  if (v !== savedNote(selected)) { ensureDay(selected).note = v; persist(selected); }
+  render();
+};
+$('noteCancel').onclick = () => { delete drafts[selected]; renderNote(); };
 
-function render() { saveNote(); renderCal(); renderDay(); renderNote(); }
+function render() { renderCal(); renderDay(); renderNote(); }
 
 $('addForm').addEventListener('submit', e => {
   e.preventDefault();
