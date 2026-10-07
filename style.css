@@ -68,3 +68,8 @@ html,body{margin:0}
 .backup p{margin:0;color:var(--muted);font-size:.88rem}
 .backup .row{display:flex;flex-wrap:wrap;gap:8px}
 .backup .note{color:var(--accent)}
+.note-label{display:block;margin-top:16px;font-size:.78rem;color:var(--muted);letter-spacing:.04em}
+.note-box{display:block;width:100%;box-sizing:border-box;margin-top:6px;font:inherit;line-height:1.6;padding:9px 12px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);resize:none;overflow:hidden;transition:height .2s}
+.note-box:focus{outline:2px solid var(--accent);outline-offset:1px;background:var(--paper)}
+@media (prefers-reduced-motion:reduce){.note-box{transition:none}}
+.cell.has-note::before{content:"";position:absolute;top:5px;right:5px;width:5px;height:5px;border-radius:50%;background:var(--warn);z-index:1}

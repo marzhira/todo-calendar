@@ -11,7 +11,7 @@ const todayKey = () => key(new Date());
 const newId = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
 const $ = id => document.getElementById(id);
 
-let days = {};            // dateKey -> {items:[{id,text,done}]}
+let days = {};            // dateKey -> {items:[{id,text,done}], note:string}
 let selected = todayKey();
 let view = new Date(); view.setDate(1);
 let daysCol = null;
@@ -43,7 +43,7 @@ onAuthStateChanged(auth, user => {
   daysCol = collection(db, 'users', user.uid, 'days');
   unsubscribe = onSnapshot(daysCol, { includeMetadataChanges: true }, snap => {
     const next = {};
-    snap.docs.forEach(d => { const v = d.data(); if (Array.isArray(v.items)) next[d.id] = { items: v.items.map(i => ({ ...i })) }; });
+    snap.docs.forEach(d => { const v = d.data(); if (Array.isArray(v.items) || v.note) next[d.id] = { items: (v.items || []).map(i => ({ ...i })), note: v.note || '' }; });
     days = next;
     setSync(snap.metadata.fromCache ? '오프라인 · 연결되면 동기화돼요' : (user.email || '동기화됨'), snap.metadata.fromCache);
     render();
@@ -66,11 +66,12 @@ function persist(k) {
   if (!daysCol) return;
   const d = days[k];
   const ref = doc(daysCol, k);
-  const p = (!d || !d.items.length) ? (delete days[k], deleteDoc(ref)) : setDoc(ref, { items: d.items, updatedAt: Date.now() });
+  const p = (!d || (!d.items.length && !d.note)) ? (delete days[k], deleteDoc(ref)) : setDoc(ref, { items: d.items, note: d.note || '', updatedAt: Date.now() });
   p.catch(err => setSync('저장 실패: ' + err.code, true));
 }
 
 // ---------- helpers ----------
+const ensureDay = k => (days[k] = days[k] || { items: [], note: '' });
 function stats(k) {
   const it = (days[k] && days[k].items) || [];
   const done = it.filter(i => i.done).length;
@@ -98,6 +99,7 @@ function renderCal() {
     if (k === tk) b.classList.add('today');
     if (k === selected) b.classList.add('sel');
     if (s.pct === 100) b.classList.add('full');
+    if (days[k] && days[k].note) b.classList.add('has-note');
     b.setAttribute('aria-label', (d.getMonth() + 1) + '월 ' + d.getDate() + '일' + (s.pct !== null ? ' 달성률 ' + s.pct + '%' : ''));
     b.innerHTML = '<span class="fill" style="height:' + (s.pct || 0) + '%"></span><span class="n"></span><span class="p"></span>';
     b.querySelector('.n').textContent = d.getDate();
@@ -132,17 +134,41 @@ function renderDay() {
     const sd = parse(src), n = days[src].items.filter(i => !i.done).length;
     carry.textContent = (sd.getMonth() + 1) + '/' + sd.getDate() + '에 못 끝낸 ' + n + '개 가져오기';
     carry.onclick = () => {
-      days[selected] = { items: days[src].items.filter(i => !i.done).map(i => ({ id: newId(), text: i.text, done: false })) };
+      ensureDay(selected).items = days[src].items.filter(i => !i.done).map(i => ({ id: newId(), text: i.text, done: false }));
       persist(selected); render();
     };
   }
 }
-function render() { renderCal(); renderDay(); }
+function renderNote() {
+  const box = $('note');
+  // 쓰는 중에는 동기화로 내용이 덮어써지지 않게 해요
+  if (document.activeElement !== box) box.value = (days[selected] && days[selected].note) || '';
+  autosize();
+}
+function autosize() {
+  const box = $('note');
+  box.style.height = 'auto';
+  if (document.activeElement === box || box.value) box.style.height = Math.max(box.scrollHeight, document.activeElement === box ? 120 : 0) + 'px';
+}
+let noteTimer = null, noteKey = null;
+function saveNote() {
+  clearTimeout(noteTimer);
+  if (noteKey === null) return;
+  const k = noteKey, v = $('note').value.replace(/\s+$/, '');
+  noteKey = null;
+  if (((days[k] && days[k].note) || '') === v) return;
+  ensureDay(k).note = v; persist(k); renderCal();
+}
+$('note').addEventListener('input', () => { noteKey = selected; autosize(); clearTimeout(noteTimer); noteTimer = setTimeout(saveNote, 800); });
+$('note').addEventListener('focus', autosize);
+$('note').addEventListener('blur', () => { saveNote(); autosize(); });
+
+function render() { saveNote(); renderCal(); renderDay(); renderNote(); }
 
 $('addForm').addEventListener('submit', e => {
   e.preventDefault();
   const v = $('newItem').value.trim(); if (!v) return;
-  (days[selected] = days[selected] || { items: [] }).items.push({ id: newId(), text: v, done: false });
+  ensureDay(selected).items.push({ id: newId(), text: v, done: false });
   $('newItem').value = ''; persist(selected); render();
 });
 $('prev').onclick = () => { view = new Date(view.getFullYear(), view.getMonth() - 1, 1); render(); };
@@ -157,24 +183,25 @@ function download(name, text, type) {
   setTimeout(() => URL.revokeObjectURL(url), 1000);
 }
 const note = t => { $('backupNote').textContent = t; };
-const sortedKeys = () => Object.keys(days).filter(k => days[k].items.length).sort();
+const sortedKeys = () => Object.keys(days).filter(k => days[k].items.length || days[k].note).sort();
 
 $('exportCsv').onclick = () => {
   const q = v => '"' + String(v).replace(/"/g, '""') + '"';
-  const rows = [['날짜', '할 일', '완료', '그날 달성률'].map(q).join(',')];
+  const rows = [['날짜', '할 일', '완료', '그날 달성률', '그날 기록'].map(q).join(',')];
   sortedKeys().forEach(k => {
-    const pct = stats(k).pct + '%';
-    days[k].items.forEach(i => rows.push([k, i.text, i.done ? 'O' : 'X', pct].map(q).join(',')));
+    const s = stats(k), pct = s.pct === null ? '' : s.pct + '%', note = days[k].note || '';
+    if (!days[k].items.length) rows.push([k, '', '', '', note].map(q).join(','));
+    days[k].items.forEach((i, n) => rows.push([k, i.text, i.done ? 'O' : 'X', pct, n === 0 ? note : ''].map(q).join(',')));
   });
   // 엑셀에서 한글이 깨지지 않도록 BOM을 붙여요
-  download('할일기록-' + todayKey() + '.csv', '\ufeff' + rows.join('\r\n'), 'text/csv;charset=utf-8');
+  download('todo-records-' + todayKey() + '.csv', '\ufeff' + rows.join('\r\n'), 'text/csv;charset=utf-8');
   note(sortedKeys().length + '일치 기록을 CSV로 내려받았어요.');
 };
 
 $('exportJson').onclick = () => {
   const out = { app: 'todo-calendar', version: 1, exportedAt: new Date().toISOString(), days: {} };
-  sortedKeys().forEach(k => { out.days[k] = { items: days[k].items }; });
-  download('할일백업-' + todayKey() + '.json', JSON.stringify(out, null, 2), 'application/json');
+  sortedKeys().forEach(k => { out.days[k] = { items: days[k].items, note: days[k].note || '' }; });
+  download('todo-backup-' + todayKey() + '.json', JSON.stringify(out, null, 2), 'application/json');
   note(sortedKeys().length + '일치 기록을 백업 파일로 내려받았어요.');
 };
 
@@ -187,18 +214,20 @@ $('importFile').onchange = async e => {
   // 이미 있는 할 일은 그대로 두고, 백업에만 있는 할 일을 더해요
   let added = 0;
   Object.entries(data.days).forEach(([k, v]) => {
-    if (!/^\d{4}-\d{2}-\d{2}$/.test(k) || !v || !Array.isArray(v.items)) return;
-    const cur = (days[k] = days[k] || { items: [] });
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(k) || !v) return;
+    const cur = ensureDay(k);
     const ids = new Set(cur.items.map(i => i.id));
     let changed = false;
-    v.items.forEach(i => {
+    const n = typeof v.note === 'string' ? v.note.trim() : '';
+    if (n && !(cur.note || '').includes(n)) { cur.note = cur.note ? cur.note + '\n\n' + n : n; added++; changed = true; }
+    (Array.isArray(v.items) ? v.items : []).forEach(i => {
       if (!i || typeof i.text !== 'string' || ids.has(i.id)) return;
       cur.items.push({ id: i.id || newId(), text: i.text.slice(0, 200), done: !!i.done }); added++; changed = true;
     });
-    if (changed) persist(k); else if (!cur.items.length) delete days[k];
+    if (changed) persist(k); else if (!cur.items.length && !cur.note) delete days[k];
   });
   render();
-  note(added ? '할 일 ' + added + '개를 불러왔어요.' : '새로 불러올 할 일이 없어요. 이미 모두 들어 있어요.');
+  note(added ? '할 일과 기록 ' + added + '개를 불러왔어요.' : '새로 불러올 할 일이 없어요. 이미 모두 들어 있어요.');
 };
 
 // 자정이 지나면 오늘 표시를 새로 고침

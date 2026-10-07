@@ -52,11 +52,13 @@
       <span>이 날의 할 일이 아직 없어요. 위 칸에 첫 할 일을 적어 보세요.</span>
       <button class="btn" id="carry" hidden></button>
     </div>
+    <label class="note-label" for="note">하루 기록</label>
+    <textarea id="note" class="note-box" rows="1" maxlength="5000" placeholder="하루를 짧게 남겨 보세요"></textarea>
   </section>
 
   <section class="panel backup" id="backupPanel" aria-label="기록 내려받기" hidden>
     <h2>기록 보관</h2>
-    <p>모든 날짜의 할 일을 파일로 내려받아 보관할 수 있어요. 백업 파일은 나중에 다시 불러올 수 있어요.</p>
+    <p>모든 날짜의 할 일과 하루 기록을 파일로 내려받아 보관할 수 있어요. 백업 파일은 나중에 다시 불러올 수 있어요.</p>
     <div class="row">
       <button class="btn" id="exportCsv">엑셀용 CSV 내려받기</button>
       <button class="btn" id="exportJson">백업 파일 내려받기</button>
