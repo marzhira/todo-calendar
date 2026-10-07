@@ -23,7 +23,7 @@ body{color:var(--ink);font-family:var(--font-body);font-size:15px;line-height:1.
 /* cats */
 .cat{display:block;flex:none;height:auto;max-width:100%}
 .cat-logo{width:auto;height:52px}
-.cat-small{width:auto;height:60px}
+.cat-small{width:auto;height:40px}
 
 header.top{grid-column:1/-1;display:flex;flex-wrap:nowrap;align-items:center;justify-content:space-between;gap:8px}
 .brand{display:flex;align-items:center;gap:8px}
@@ -121,6 +121,6 @@ ul.items li.done .t{color:var(--done);text-decoration:line-through;text-decorati
 ul.events{margin-top:4px}
 .ev-color{flex:none;width:6px;align-self:stretch;border-radius:3px;background:var(--ev,var(--event))}
 
-.foot{display:flex;justify-content:center;align-items:flex-end;gap:2px;padding-block:4px 20px;color:var(--muted);font-family:var(--font-display);font-size:.95rem}
-.foot .cat{width:auto;height:64px}
+.foot{display:flex;justify-content:center;align-items:flex-end;gap:0;padding-block:4px 20px;color:var(--muted);font-family:var(--font-display);font-size:.95rem}
+.foot .cat{width:auto;height:40px}
 @media (max-width:420px){h1{font-size:1.5rem}.cat-logo{height:44px}.sync{max-width:6.5em}}
