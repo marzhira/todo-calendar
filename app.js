@@ -277,7 +277,6 @@ $('addForm').addEventListener('submit', e => {
 });
 $('prev').onclick = () => { view = new Date(view.getFullYear(), view.getMonth() - 1, 1); render(); };
 $('next').onclick = () => { view = new Date(view.getFullYear(), view.getMonth() + 1, 1); render(); };
-$('goToday').onclick = () => { selected = todayKey(); view = new Date(); view.setDate(1); render(); };
 
 // ---------- 기록 내려받기 / 백업 불러오기 ----------
 function download(name, text, type) {

@@ -56,7 +56,10 @@
     </div>
     <div class="grid" id="dows"></div>
     <div class="grid" id="cal"></div>
-    <div class="legend"><span id="streak"></span> <button class="btn" id="goToday" style="margin-left:6px;padding:2px 10px">오늘</button></div>
+    <div class="cal-band">
+      <span id="streak"></span>
+      <div class="band-cats" aria-hidden="true"><img class="cat" id="footA" src="img/3.png" alt=""><img class="cat" id="footB" src="img/4.png" alt=""></div>
+    </div>
   </section>
 
   <section class="panel" id="dayPanel" aria-label="선택한 날의 할 일" hidden>
@@ -104,9 +107,6 @@
   </section>
 
 </div>
-<footer class="foot" aria-hidden="true">
-  <img class="cat" id="footA" src="img/3.png" alt=""><img class="cat" id="footB" src="img/4.png" alt="">
-</footer>
 <script type="module" src="app.js"></script>
 </body>
 </html>

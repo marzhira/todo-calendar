@@ -3,18 +3,18 @@
 :root{
   --bg:#f7f1e3; --paper:#fffaf0; --ink:#2b3a55; --muted:#7a8399; --line:#e6dfcd; --outline:#2b3a55;
   --accent:#4f7fb0; --accent-soft:#d7e5f3; --sky:#9dbedd; --red:#c4423a; --done:#a8afbd; --event:#6f9fcf;
-  --cat-white:#ffffff; --cat-black:#2a2a33; --blush:#f4a6a0; --shadow:#9dbedd;
+  --band:#9bbed2; --cat-white:#ffffff; --cat-black:#2a2a33; --blush:#f4a6a0; --shadow:#9dbedd;
   --font-display:"Gaegu", "Gowun Dodum", "Apple SD Gothic Neo", cursive;
   --font-body:"Gowun Dodum", "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
   --bg:#1b2233; --paper:#232c40; --ink:#f3ead8; --muted:#a3abbd; --line:#34405a; --outline:#8fb3d9;
   --accent:#8fb3d9; --accent-soft:#2e3f5c; --sky:#5f84ad; --red:#ee8577; --done:#6b7489; --event:#8fb3d9;
-  --cat-white:#fffaf0; --cat-black:#14141a; --blush:#e48b86; --shadow:#11182a; color-scheme:dark}}
+  --band:#3b5674; --cat-white:#fffaf0; --cat-black:#14141a; --blush:#e48b86; --shadow:#11182a; color-scheme:dark}}
 :root[data-theme="dark"]{
   --bg:#1b2233; --paper:#232c40; --ink:#f3ead8; --muted:#a3abbd; --line:#34405a; --outline:#8fb3d9;
   --accent:#8fb3d9; --accent-soft:#2e3f5c; --sky:#5f84ad; --red:#ee8577; --done:#6b7489; --event:#8fb3d9;
-  --cat-white:#fffaf0; --cat-black:#14141a; --blush:#e48b86; --shadow:#11182a; color-scheme:dark}
+  --band:#3b5674; --cat-white:#fffaf0; --cat-black:#14141a; --blush:#e48b86; --shadow:#11182a; color-scheme:dark}
 html,body{margin:0;background:var(--bg)}
 body{color:var(--ink);font-family:var(--font-body);font-size:15px;line-height:1.55}
 .wrap{max-width:1040px;margin:0 auto;padding-inline:16px;padding-block:18px 24px;display:grid;gap:20px;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);align-items:start}
@@ -126,3 +126,8 @@ ul.events{margin-top:4px}
 @media (max-width:420px){h1{font-size:1.5rem}.cat-logo{height:44px}.sync{max-width:6.5em}}
 #streak{display:inline-flex;align-items:center;gap:5px;min-width:0;font-family:"Jua", var(--font-body);font-weight:400;font-size:.88rem;color:var(--red)}
 #streak::before{content:"";flex:none;width:15px;height:15px;background:currentColor;-webkit-mask:var(--paw) center/contain no-repeat;mask:var(--paw) center/contain no-repeat}
+/* 달력 아래 하늘색 띠: 왼쪽 연속 기록, 오른쪽 캐릭터 */
+.cal-band{display:flex;align-items:flex-end;justify-content:space-between;gap:8px;margin:14px -18px -18px;padding:10px 14px 8px 18px;background:var(--band);border-radius:0 0 18px 18px;min-height:40px}
+.cal-band #streak{align-self:center}
+.band-cats{display:flex;align-items:flex-end;flex:none;margin-top:-18px}
+.band-cats .cat{width:auto;height:36px}
