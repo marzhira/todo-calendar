@@ -264,7 +264,7 @@ function renderStreak() {
   let n = 0;
   while (over(key(d)) && n < 3660) { n++; d.setDate(d.getDate() - 1); }
   $('streak').textContent = n
-    ? '50% 넘긴 날 ' + n + '일 연속' + (todayOver ? '!' : ' · 오늘도 이어 가요')
+    ? '50% 넘긴 날 ' + n + '일 연속' + (todayOver ? '!' : ' · 오늘도 화이팅')
     : '오늘 50%를 넘기면 연속 기록 시작!';
 }
 function render() { renderCal(); renderStreak(); renderDay(); renderNote(); renderEvents(); loadEvents(false); }
