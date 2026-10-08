@@ -2,18 +2,18 @@
 /* Layout: bakery-sticker planner. Cream paper cards with navy ink outlines, dusty-blue fills for progress, cherry-red for headings; doodled cats as the only ornament. Calendar beside the day card, stacked on phones. */
 :root{
   --bg:#f7f1e3; --paper:#fffaf0; --ink:#2b3a55; --muted:#7a8399; --line:#e6dfcd; --outline:#2b3a55;
-  --accent:#4f7fb0; --accent-soft:#d7e5f3; --sky:#9dbedd; --red:#c4423a; --done:#a8afbd; --event:#6f9fcf;
+  --accent:#4f7fb0; --accent-soft:#d7e5f3; --sky:#9dbedd; --red:#a32f3a; --done:#a8afbd; --event:#6f9fcf;
   --band:#9bbed2; --cat-white:#ffffff; --cat-black:#2a2a33; --blush:#f4a6a0; --shadow:#9dbedd;
   --font-display:"Gaegu", "Gowun Dodum", "Apple SD Gothic Neo", cursive;
   --font-body:"Gowun Dodum", "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
   --bg:#1b2233; --paper:#232c40; --ink:#f3ead8; --muted:#a3abbd; --line:#34405a; --outline:#8fb3d9;
-  --accent:#8fb3d9; --accent-soft:#2e3f5c; --sky:#5f84ad; --red:#ee8577; --done:#6b7489; --event:#8fb3d9;
+  --accent:#8fb3d9; --accent-soft:#2e3f5c; --sky:#5f84ad; --red:#e3777f; --done:#6b7489; --event:#8fb3d9;
   --band:#3b5674; --cat-white:#fffaf0; --cat-black:#14141a; --blush:#e48b86; --shadow:#11182a; color-scheme:dark}}
 :root[data-theme="dark"]{
   --bg:#1b2233; --paper:#232c40; --ink:#f3ead8; --muted:#a3abbd; --line:#34405a; --outline:#8fb3d9;
-  --accent:#8fb3d9; --accent-soft:#2e3f5c; --sky:#5f84ad; --red:#ee8577; --done:#6b7489; --event:#8fb3d9;
+  --accent:#8fb3d9; --accent-soft:#2e3f5c; --sky:#5f84ad; --red:#e3777f; --done:#6b7489; --event:#8fb3d9;
   --band:#3b5674; --cat-white:#fffaf0; --cat-black:#14141a; --blush:#e48b86; --shadow:#11182a; color-scheme:dark}
 html,body{margin:0;background:var(--bg)}
 body{color:var(--ink);font-family:var(--font-body);font-size:15px;line-height:1.55}
