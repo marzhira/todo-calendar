@@ -255,7 +255,19 @@ function renderEvents() {
 }
 $('eventsAction').onclick = () => { if (gcal.hasToken()) loadEvents(true); else connectCalendar(); };
 
-function render() { renderCal(); renderDay(); renderNote(); renderEvents(); loadEvents(false); }
+// 달성률 50%를 넘긴 날이 오늘까지 며칠 연속인지 (오늘이 아직 안 넘었으면 어제까지)
+function renderStreak() {
+  const over = k => { const p = stats(k).pct; return p !== null && p > 50; };
+  const d = new Date(); d.setHours(0, 0, 0, 0);
+  const todayOver = over(key(d));
+  if (!todayOver) d.setDate(d.getDate() - 1);
+  let n = 0;
+  while (over(key(d)) && n < 3660) { n++; d.setDate(d.getDate() - 1); }
+  $('streak').textContent = n
+    ? '50% 넘긴 날 ' + n + '일 연속' + (todayOver ? '!' : ' · 오늘도 이어 가요')
+    : '오늘 50%를 넘기면 연속 기록 시작!';
+}
+function render() { renderCal(); renderStreak(); renderDay(); renderNote(); renderEvents(); loadEvents(false); }
 
 $('addForm').addEventListener('submit', e => {
   e.preventDefault();

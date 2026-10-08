@@ -60,7 +60,7 @@ h2,.cal-head h2,.day-head h2{font-family:var(--font-display);font-weight:700}
 .cell.full .p::after{content:"";width:10px;height:10px;background:var(--red);-webkit-mask:var(--paw) center/contain no-repeat;mask:var(--paw) center/contain no-repeat}
 :root{--paw:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cellipse cx='12' cy='16' rx='5.5' ry='4.5'/%3E%3Ccircle cx='5' cy='10' r='2.3'/%3E%3Ccircle cx='9.3' cy='5.6' r='2.3'/%3E%3Ccircle cx='14.7' cy='5.6' r='2.3'/%3E%3Ccircle cx='19' cy='10' r='2.3'/%3E%3C/svg%3E")}
 .cell.has-note::before{content:"";position:absolute;top:5px;right:5px;width:6px;height:6px;border-radius:50%;background:var(--red);z-index:1}
-.legend{margin-top:10px;font-size:.8rem;color:var(--muted);display:flex;flex-wrap:wrap;align-items:center;gap:6px}
+.legend{margin-top:10px;font-size:.85rem;color:var(--accent);font-weight:700;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:6px}
 .legend .btn{padding:1px 12px;font-size:.8rem}
 
 .day-head{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:8px}
