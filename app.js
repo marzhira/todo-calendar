@@ -88,6 +88,17 @@ function persist(k) {
   p.catch(err => setSync('저장 실패: ' + err.code, true));
 }
 
+// ---------- 캐릭터 ----------
+// 짝은 항상 같은 그림에서 나온 둘끼리 (1·2, 3·4, p5-a·p5-b …)
+const PAIRS = [['img/3.png', 'img/4.png'], ['img/p5-a.png', 'img/p5-b.png'], ['img/p6-a.png', 'img/p6-b.png'], ['img/p7-a.png', 'img/p7-b.png'], ['img/p8-a.png', 'img/p8-b.png'], ['img/p9-a.png', 'img/p9-b.png']];
+const SINGLES = ['img/2.png', 'img/4.png', ...PAIRS.slice(1).flat()];
+const dayIndex = k => Math.round(parse(k).getTime() / 86400000);
+function renderFoot() {
+  const [a, b] = PAIRS[dayIndex(todayKey()) % PAIRS.length];
+  $('footA').src = a; $('footB').src = b;
+}
+renderFoot();
+
 // ---------- helpers ----------
 const ensureDay = k => (days[k] = days[k] || { items: [], note: '', eventsDone: {} });
 function stats(k) {
@@ -135,6 +146,10 @@ function renderDay() {
   $('pct').querySelector('small').textContent = s.total ? s.done + ' / ' + s.total + ' 완료' : '';
   $('barFill').style.width = (s.pct || 0) + '%';
   $('yay').hidden = s.pct !== 100;
+  // 날짜마다 다른 친구가 나와요
+  const n = dayIndex(selected);
+  $('emptyImg').src = SINGLES[n % SINGLES.length];
+  $('yay').src = SINGLES[(n + 3) % SINGLES.length];
   const ul = $('items'); ul.innerHTML = '';
   const it = (days[selected] && days[selected].items) || [];
   it.forEach(item => {
@@ -313,7 +328,7 @@ $('importFile').onchange = async e => {
 };
 
 // 자정이 지나면 오늘 표시를 새로 고침
-document.addEventListener('visibilitychange', () => { if (!document.hidden) render(); });
+document.addEventListener('visibilitychange', () => { if (!document.hidden) { renderFoot(); render(); } });
 
 if ('serviceWorker' in navigator) {
   // 새 버전이 설치되면 한 번 새로고침해서 바로 새 화면을 보여 줘요
