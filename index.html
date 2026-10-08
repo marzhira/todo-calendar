@@ -51,12 +51,12 @@
   <section class="panel" id="calPanel" aria-label="달력" hidden>
     <div class="cal-head">
       <button class="btn" id="prev" aria-label="이전 달">‹</button>
-      <h2 id="monthLabel"></h2>
+      <div class="month"><h2 id="monthLabel"></h2><button class="btn today-btn" id="goToday" type="button">오늘</button></div>
       <button class="btn" id="next" aria-label="다음 달">›</button>
     </div>
     <div class="grid" id="dows"></div>
     <div class="grid" id="cal"></div>
-    <div class="legend"><span id="streak"></span> <button class="btn" id="goToday" style="margin-left:6px;padding:2px 10px">오늘</button></div>
+    <div class="legend"><span id="streak"></span></div>
   </section>
 
   <section class="panel" id="dayPanel" aria-label="선택한 날의 할 일" hidden>

@@ -124,5 +124,8 @@ ul.events{margin-top:4px}
 .foot{display:flex;justify-content:center;align-items:flex-end;gap:0;padding-block:4px 20px;color:var(--muted);font-family:var(--font-display);font-size:.95rem}
 .foot .cat{width:auto;height:32px}
 @media (max-width:420px){h1{font-size:1.5rem}.cat-logo{height:44px}.sync{max-width:6.5em}}
-#streak{display:inline-flex;align-items:center;gap:4px;min-width:0;font-family:var(--font-display);font-weight:700;font-size:.95rem;color:var(--red)}
-#streak::before{content:"";flex:none;width:15px;height:15px;background:currentColor;-webkit-mask:var(--paw) center/contain no-repeat;mask:var(--paw) center/contain no-repeat}
+#streak{display:inline-flex;align-items:center;gap:5px;min-width:0;font-family:var(--font-display);font-weight:700;font-size:1.1rem;line-height:1.2;color:var(--red);white-space:nowrap}
+#streak::before{content:"";flex:none;width:16px;height:16px;background:currentColor;-webkit-mask:var(--paw) center/contain no-repeat;mask:var(--paw) center/contain no-repeat}
+.month{display:flex;align-items:center;gap:8px}
+.today-btn{padding:1px 10px;font-size:.8rem}
+.cell.today:has(.p:not(:empty))::after{display:none}
